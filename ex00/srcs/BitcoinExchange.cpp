@@ -46,7 +46,6 @@ std::map<std::string, double> BitcoinExchange::getDataMap() const
 {
 	return _dataMap;
 }
-
 //! ─────────────────────────────────────────────────────────────────────────────
 
 
@@ -85,17 +84,12 @@ void BitcoinExchange::processLine(const std::string &line)
     std::getline(iss, date, '|');
     std::getline(iss, valueStr);
 
-    std::cout << "Passing by here" << std::endl;
-    std::cout << date << std::endl;
-
     //Erase spaces
     //! std::remove_if move characters that meet the condition to the end of the string and return the fist character that 
-    //! from the met condition list
+    //! met condition list
     //? erase by the other side specified in the interator list provided in the function
 
     date.erase(std::remove_if(date.begin(), date.end(), ::isspace), date.end());
-    std::cout << "after erasing" << std::endl;
-    std::cout << date << std::endl;
 
     // Check if the date is valid
     if (!isValidDate(date))

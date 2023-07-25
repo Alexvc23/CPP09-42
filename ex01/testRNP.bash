@@ -1,36 +1,32 @@
 #!/bin/bash
 
+# Define color codes
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
 # Define test cases
 TEST_CASES=(
     "2 3 +" "5"
     "4 2 -" "2"
     "3 5 *" "15"
     "6 2 /" "3"
-    "2 3 **" "8"
-    "2 +" "Error: insufficient operands for operator "
-    "+ 2 3" "Error: invalid token "
+    "2 +" "Error: insufficient operands for operator '+'"
+    "+ 2 3" "Error: insufficient operands for operator '+'"
     "2 0 /" "Error: division by zero"
-    "1e10 1e10 *" "Error: result too large"
     "1 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 +" "21"
     "1 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 -" "-19"
-    "2 3 * 4 5 * +" "26"
-    "2 3 * 4 5 * -" "-14"
-    "2 3 * 4 5 * /" "0.3"
-    "2 3 ** 4 5 ** +" "1048578"
-    "2 3 ** 4 5 ** -" "-1048572"
-    "2 3 ** 4 5 ** /" "9.5367431640625e-07"
-    "2 3 ** 4 5 ** 6 7 ** +" "1176498"
-    "2 3 ** 4 5 ** 6 7 ** -" "-1176492"
-    "2 3 ** 4 5 ** 6 7 ** /" "8.138020833333333e-14"
-    "2 3 ** 4 5 ** 6 7 ** 8 9 ** +" "348678466"
-    "2 3 ** 4 5 ** 6 7 ** 8 9 ** -" "-348678458"
-    "2 3 ** 4 5 ** 6 7 ** 8 9 ** /" "2.3283064365386963e-10"
-    "2 3 ** 4 5 ** 6 7 ** 8 9 ** 10 11 ** +" "3486784661"
-    "2 3 ** 4 5 ** 6 7 ** 8 9 ** 10 11 ** -" "-3486784659"
-    "2 3 ** 4 5 ** 6 7 ** 8 9 ** 10 11 ** /" "2.328306436538696e-09"
-    "2 3 ** 4 5 ** 6 7 ** 8 9 ** 10 11 ** 12 13 ** +" "34867846673"
-    "2 3 ** 4 5 ** 6 7 ** 8 9 ** 10 11 ** 12 13 ** -" "-34867846671"
-    "2 3 ** 4 5 ** 6 7 ** 8 9 ** 10 11 ** 12 13 ** /" "2.328306436538696e-08"
+    "1 1 1 + +" "3" # additional tests
+    "2 2 2 * *" "8"
+    "3 3 /" "1"
+    "100 10 /" "The argument number provided should be greater than 0 and lower or equal to 10"
+    "/" "Error: insufficient operands for operator '/'"
+    "*" "Error: insufficient operands for operator '*'"
+    "-" "Error: insufficient operands for operator '-'"
+    "+" "Error: insufficient operands for operator '+'"
+    "5 0 *" "0"
+    "5 1 -" "4"
+    "100 50 -" "The argument number provided should be greater than 0 and lower or equal to 10"
 )
 
 # Loop through test cases
@@ -39,32 +35,8 @@ for (( i=0; i<${#TEST_CASES[@]}; i+=2 )); do
   expected="${TEST_CASES[i+1]}"
   output=$(./RPN "$input" 2>&1)
   if [[ "$output" == "$expected" ]]; then
-    echo "PASS: $input = $expected"
+    echo -e "${GREEN}PASS: ${NC}$input = $expected${NC}"
   else
-    echo "FAIL: $input = $output (expected $expected)"
+    echo -e "${RED}FAIL: $input = $output (expected $expected)${NC}"
   fi
 done
-
-
-
-#conventional operations
-# "1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1" "21"
-# "1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1" "-21"
-# "2 * 3 + 4 * 5" "26"
-# "2 * 3 - 4 * 5" "-14"
-# "2 * 3 / 4 * 5" "1.5"
-# "2^3 + 4^5" "1048578"
-# "2^3 - 4^5" "-1048572"
-# "2^3 / 4^5" "9.5367431640625e-07"
-# "2^3 + 4^5 + 6^7" "1176498"
-# "2^3 - 4^5 - 6^7" "-1176492"
-# "2^3 / 4^5 / 6^7" "8.138020833333333e-14"
-# "2^3 + 4^5 + 6^7 + 8^9" "348678466"
-# "2^3 - 4^5 - 6^7 - 8^9" "-348678458"
-# "2^3 / 4^5 / 6^7 / 8^9" "2.3283064365386963e-10"
-# "2^3 + 4^5 + 6^7 + 8^9 + 10^11" "3486784661"
-# "2^3 - 4^5 - 6^7 - 8^9 - 10^11" "-3486784659"
-# "2^3 / 4^5 / 6^7 / 8^9 / 10^11" "2.328306436538696e-09"
-# "2^3 + 4^5 + 6^7 + 8^9 + 10^11 + 12^13" "34867846673"
-# "2^3 - 4^5 - 6^7 - 8^9 - 10^11 - 12^13" "-34867846671"
-# "2^3 / 4^5 / 6^7 / 8^9 / 10^11 / 12^13" "2.328306436538696e-08"

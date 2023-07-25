@@ -6,7 +6,7 @@
 /*   By: alexandervalencia <alexandervalencia@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:15:00 by alexanderva       #+#    #+#             */
-/*   Updated: 2023/05/10 15:06:47 by alexanderva      ###   ########.fr       */
+/*   Updated: 2023/07/25 09:26:17 by alexanderva      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int main(int argc, char *argv[])
     // Print unsorted sequence
     std::cout  << BOLD << RED << "Before: " << END;
     printDataStructure<std::vector<int> >(vecTemp);
+    std::cout << std::endl << std::endl;
 
     // Sort vector sequence using merge-insert sort
     clock_t start = clock();
@@ -105,6 +106,7 @@ int main(int argc, char *argv[])
     // Print sorted vector sequence
     std::cout  << BOLD << GREEN << "After: " << END; 
     printDataStructure<std::vector<int> >(vecTemp);
+    std::cout << std::endl;
 
     // Print time taken by merge-insert sort
     std::cout << "Time to process a range of " << vecTemp.size() << " with std::vector<int>: ";
