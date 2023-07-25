@@ -18,11 +18,14 @@ $(RESULT) : $(OBJS)
 
 
 clean :
-	@rm -rf $(OBJS)/*.o
+	@ echo "Removing objects"
+	@rm -rf srcs/*.o
 
 fclean : clean
+	@ echo "Removing executable"
 	@rm -rf $(RESULT)
 
 re : fclean all
+	@ echo "Recreating project"
 
 .PHONY: all clean fclean re
